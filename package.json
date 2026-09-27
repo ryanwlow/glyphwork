@@ -1,0 +1,8 @@
+{
+  "name": "glyphwork",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tools/verify.mjs && node tools/smoke.mjs"
+  }
+}
