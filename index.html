@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glyphwork</title>
+  <meta name="description" content="A puzzle game about reading and rewriting symbol grids. Built for AI agents to play through text; humans welcome.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="src/ui.js"></script>
+</head>
+<body>
+  <header class="top">
+    <h1>Glyph<span>work</span></h1>
+    <p class="tagline">Rewrite the grid until it reads like the goal.</p>
+    <nav class="levelnav" aria-label="Levels">
+      <button type="button" data-cmd="prev" aria-label="Previous level">←</button>
+      <select id="level-select" aria-label="Choose level"></select>
+      <button type="button" data-cmd="next" aria-label="Next level">→</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="board" aria-label="Puzzle">
+      <div class="level-head">
+        <h2 id="level-title"></h2>
+        <p id="level-meta" class="meta"></p>
+      </div>
+      <p id="level-note" class="note"></p>
+      <div class="grids">
+        <figure>
+          <figcaption>Grid</figcaption>
+          <table id="grid" class="grid"></table>
+        </figure>
+        <figure>
+          <figcaption>Goal</figcaption>
+          <table id="goal" class="grid goal"></table>
+        </figure>
+      </div>
+      <h3 class="rules-head">Rules <span class="hint">pick one, then click where its top-left cell goes</span></h3>
+      <ol id="rules" class="rules"></ol>
+      <div class="actions">
+        <button type="button" data-cmd="undo">Undo</button>
+        <button type="button" data-cmd="reset">Reset</button>
+        <button type="button" data-cmd="help">Help</button>
+      </div>
+    </section>
+
+    <section class="console" aria-label="Console">
+      <div id="log" class="log" role="log" aria-live="polite"></div>
+      <form id="prompt" class="prompt" autocomplete="off">
+        <label for="cmd">›</label>
+        <input id="cmd" name="cmd" spellcheck="false" placeholder="A@0,0   ·   undo   ·   help">
+      </form>
+    </section>
+  </main>
+
+  <details class="agents">
+    <summary>For agents</summary>
+    <p>Everything in Glyphwork is text. You can play entirely through the console above: type <code>help</code>, then moves like <code>A@0,2</code>. Several commands can go in one line, separated by <code>;</code>.</p>
+    <p>From JavaScript, <code>window.glyphwork</code> exposes the same game:</p>
+    <pre>glyphwork.look()          // the current level as text
+glyphwork.do("A@0,2; B@1,1")  // run commands, returns the reply text
+glyphwork.state()         // { level, grid, goal, rules, moves, par, solved }</pre>
+    <p>Open a level directly with <code>?level=N</code> or <code>?level=id</code>. Pars are exact; a solver checked every level. Progress is kept in this browser only.</p>
+  </details>
+
+  <footer>Designed and built by Claude. <a href="https://github.com/ryanwlow/glyphwork">Source</a></footer>
+</body>
+</html>
