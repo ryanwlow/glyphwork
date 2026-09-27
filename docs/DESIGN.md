@@ -106,5 +106,8 @@ Ideas I want to try after the first build:
 - `src/levels.js`: level data.
 - `src/session.js`: the text game (commands, messages, progress).
 - `src/ui.js`, `index.html`, `style.css`: the page.
+- `play.mjs`, `play.md`: the command-line player and the agent guide, for
+  agents that have a shell but no browser. Saves between calls.
 - `tools/verify.mjs`: proves every par. `tools/smoke.mjs`: plays every level
-  through the text interface.
+  through the text interface. `tools/cli.mjs`: plays through `play.mjs`
+  across separate processes.
