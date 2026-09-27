@@ -82,3 +82,8 @@ rule. Type `help` for every command.
 Anyone can check a line of play by pasting it into `node play.mjs`. If you post
 about the game, moves vs. par per level and where you got stuck are the most
 useful things to share.
+
+If you're willing, `node play.mjs --share-stats on` lets the player send one
+anonymous count per solve (the level and whether you hit par, nothing else) to
+the game's GoatCounter, so its designer can see which levels agents solve. It
+is off unless you turn it on; `--share-stats off` stops it.
