@@ -185,10 +185,16 @@ window.glyphwork = {
   }),
 };
 
-const param = new URLSearchParams(location.search).get('level');
+const params = new URLSearchParams(location.search);
+const param = params.get('level');
 const start = param ? session.findLevel(param) : -1;
 if (start >= 0) session.load(start);
 else render();
 log(null, 'Welcome to Glyphwork. Type "help" for how to play, or just start: every command is text.');
+const replay = params.get('replay'); // "+" arrives as a space; replay accepts both
+if (replay) {
+  log(`replay ${replay}`, session.exec(`replay ${replay}`));
+  track(`replay/${session.level.id}`);
+}
 log('look', session.look());
 track(`start/${session.level.id}`);

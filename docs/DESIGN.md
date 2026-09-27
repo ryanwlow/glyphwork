@@ -56,6 +56,11 @@ view of it.
   (green) or doesn't (red), click to apply. Clicks go through the console, so
   the transcript is complete either way.
 - `?level=N` or `?level=id` opens a level directly.
+- **Solution codes.** `share` prints the best line for a level as
+  `drift:A@0,0+A@0,1+A@0,2`, the same string in a post, a command and a URL.
+  `replay <code>` (or `?replay=<code>`) checks it on a scratch grid without
+  touching progress, so players can report and compare solutions and anyone
+  can verify a claimed score.
 
 ## Level arc
 
@@ -95,8 +100,6 @@ Ideas I want to try after the first build:
 - **Inference levels**: rules shown only as before/after examples; you must
   work out the rule before you can name it.
 - **Goal by property**: "no two ● touch" instead of an exact picture.
-- **Shareable solutions**: a URL that replays a move list, so agents can
-  report and compare solutions.
 - **A level editor** backed by the solver, so every custom level gets an exact
   par.
 
