@@ -15,6 +15,8 @@ Commands (separate several with ; or new lines):
   levels       list levels and your progress
   level <n>    go to level n (number or id), next, prev
   history      show the moves so far
+  share        your best solution of this level as a code and a link
+  replay <code>  check a solution code, e.g. replay drift:A@0,0+A@0,1+A@0,2
   help         show this
 
 Reading rules:
@@ -28,6 +30,8 @@ Reading rules:
   A move must change the grid. Rows and columns count from 0.
   Par is the fewest moves that solve the level. It is exact: a solver
   checked every level.`;
+
+export const SITE = 'https://ryanwlow.github.io/glyphwork/';
 
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
@@ -64,6 +68,7 @@ export class Session {
     this.onChange = () => {};
     this.progress = this.read('progress', {}); // id -> best move count
     this.revealed = this.read('revealed', {}); // id -> [rule ids]
+    this.solutions = this.read('solutions', {}); // id -> moves of the best solve
     this.load(0);
     this.onChange = onChange; // set after the first load so the UI can finish wiring up
   }
@@ -143,8 +148,7 @@ export class Session {
     return `Solved in ${plural(n, 'move')}, ${verdict}.${onward}`;
   }
 
-  explainMiss(rule, r, c) {
-    const g = this.grid;
+  explainMiss(rule, r, c, g = this.grid) {
     if (r < 0 || c < 0 || r >= g.length || c >= g[0].length) return `${r},${c} is off the grid (rows 0-${g.length - 1}, columns 0-${g[0].length - 1}).`;
     if (r + rule.h > g.length || c + rule.w > g[r].length) {
       return `${rule.id} is ${rule.h} tall and ${rule.w} wide, so at ${r},${c} it would hang off the grid.`;
@@ -190,10 +194,74 @@ export class Session {
         this.progress[lv.id] = this.history.length;
         this.write('progress', this.progress);
       }
-      out += `\n${this.solvedLine()}`;
+      if (best == null || this.history.length <= best) {
+        this.solutions[lv.id] = this.history.map((h) => h.move);
+        this.write('solutions', this.solutions);
+      }
+      out += `\n${this.solvedLine()} Type "share" for a code others can replay.`;
       this.onSolve(lv, this.history.length);
     }
     return out;
+  }
+
+  // A solution code is the level id and its moves: drift:A@0,0+A@0,1+A@0,2.
+  // It reads the same in a message, a command and a URL.
+  shareText() {
+    const lv = this.level;
+    const moves = this.solutions[lv.id];
+    if (!moves) {
+      const sofar = this.history.length ? ` Moves so far: ${this.history.map((h) => h.move).join('; ')}.` : '';
+      return `Solve ${lv.title} first, then "share" gives a code for your best line.${sofar}`;
+    }
+    const code = `${lv.id}:${moves.join('+')}`;
+    const verdict = moves.length <= lv.par ? 'at par' : `par is ${lv.par}`;
+    return [
+      `Your best on ${lv.title}: ${plural(moves.length, 'move')}, ${verdict}.`,
+      `  code    ${code}`,
+      `  replay  ${SITE}?replay=${code}`,
+      `Anyone can check it with "replay ${code}" (it spoils the level).`,
+    ].join('\n');
+  }
+
+  // Plays a solution code on a scratch grid and reports what it does. Nothing
+  // is saved: no best score, no broken seals. Afterwards you are at the start
+  // of that level.
+  replay(code) {
+    const m = String(code).trim().match(/^([\w-]+)\s*:\s*(.*)$/s);
+    if (!m) return 'replay takes a solution code like drift:A@0,0+A@0,1+A@0,2 ("share" prints yours).';
+    const i = this.findLevel(m[1]);
+    if (i < 0) return `No level ${m[1]}. Type "levels" for the list.`;
+    const lv = this.levels[i];
+    const moves = m[2].split(/[\s+]+/).filter(Boolean);
+    const out = [`Replaying ${lv.title} (level ${i + 1}), ${plural(moves.length, 'move')}:`];
+    let grid = lv.start;
+    let solvedAt = null;
+    for (const [k, mv] of moves.entries()) {
+      const p = mv.match(/^([A-Z])@(-?\d+),(-?\d+)$/);
+      const rule = p && lv.rules.find((x) => x.id === p[1]);
+      let problem = null;
+      if (!p) problem = `"${mv}" isn't a move like A@0,2.`;
+      else if (!rule) problem = `no rule ${p[1]} in this level.`;
+      else if (solvedAt != null) problem = 'the level was already solved.';
+      else if (!match(grid, rule, +p[2], +p[3])) problem = this.explainMiss(rule, +p[2], +p[3], grid);
+      else {
+        const next = apply(grid, rule, +p[2], +p[3]);
+        if (gridKey(next) === gridKey(grid)) problem = 'it changes nothing.';
+        else grid = next;
+      }
+      if (problem) {
+        out.push(`  move ${k + 1}, ${mv}: ${problem}`, '', `Not a valid solution: it stops at move ${k + 1}.`);
+        this.load(i);
+        return out.join('\n');
+      }
+      if (isSolved(grid, lv.goal)) solvedAt = k + 1;
+    }
+    out.push('', ...sideBySide(['Grid', ...gridLines(grid)], ['Goal', ...gridLines(lv.goal)]), '');
+    if (solvedAt == null) out.push(`Every move fits, but the grid doesn't match the goal. Par is ${lv.par}.`);
+    else out.push(`Solves ${lv.title} in ${plural(solvedAt, 'move')}, ${solvedAt === lv.par ? 'at par' : solvedAt < lv.par ? `under par ${lv.par}, which the solver says can't happen. Please report it` : `par is ${lv.par}`}.`);
+    this.load(i);
+    out.push(`You're at the start of ${lv.title} now.`);
+    return out.join('\n');
   }
 
   levelsText() {
@@ -237,6 +305,10 @@ export class Session {
         return this.levelsText();
       case 'history':
         return this.history.length ? this.history.map((h) => h.move).join('; ') : 'No moves yet.';
+      case 'share':
+        return this.shareText();
+      case 'replay':
+        return this.replay(arg);
       case 'undo': {
         const n = arg ? Number(arg) : 1;
         if (!Number.isInteger(n) || n < 1) return 'undo takes a positive number.';

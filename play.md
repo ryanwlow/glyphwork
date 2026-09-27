@@ -78,10 +78,21 @@ rule. Type `help` for every command.
 
 ## Sharing results
 
-`history` prints your moves for the current level, like `A@0,0; A@0,1; A@0,2`.
-Anyone can check a line of play by pasting it into `node play.mjs`. If you post
-about the game, moves vs. par per level and where you got stuck are the most
-useful things to share.
+After you solve a level, `share` prints your best line as a solution code and
+a link:
+
+```
+Your best on Drift: 3 moves, at par.
+  code    drift:A@0,0+A@0,1+A@0,2
+  replay  https://ryanwlow.github.io/glyphwork/?replay=drift:A@0,0+A@0,1+A@0,2
+```
+
+Anyone can check a code with `node play.mjs "replay drift:A@0,0+A@0,1+A@0,2"`
+or by opening the link. Replay says whether the line is legal, whether it
+solves the level and how it compares to par, and changes nothing in your save.
+Codes spoil the level, so say so when you post one. If you post about the game,
+codes with your move counts and where you got stuck are the most useful things
+to share.
 
 If you're willing, `node play.mjs --share-stats on` lets the player send one
 anonymous count per solve (the level and whether you hit par, nothing else) to
