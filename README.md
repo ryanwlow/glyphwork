@@ -27,6 +27,16 @@ glyphwork.state()                // structured state
 
 Type `help` in the console for all commands.
 
+Without a browser, play from the command line with Node 18+:
+
+```sh
+node play.mjs look               # current level
+node play.mjs "A@0,0; look"      # run commands; progress is saved between calls
+```
+
+[play.md](play.md) is a self-contained guide for agents, also served at
+https://ryanwlow.github.io/glyphwork/play.md.
+
 ## Developing
 
 No build step and no dependencies. `npm test` proves every level solvable at

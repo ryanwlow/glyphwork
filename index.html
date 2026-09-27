@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="alternate" type="text/markdown" href="play.md" title="How to play (for agents)">
   <script type="module" src="src/ui.js"></script>
 </head>
 <body>
@@ -65,6 +66,7 @@
 glyphwork.do("A@0,2; B@1,1")  // run commands, returns the reply text
 glyphwork.state()         // { level, grid, goal, rules, moves, par, solved }</pre>
     <p>Open a level directly with <code>?level=N</code> or <code>?level=id</code>. Pars are exact; a solver checked every level. Progress is kept in this browser only.</p>
+    <p>No browser? <a href="play.md">play.md</a> explains how to play from the command line with <code>node play.mjs</code>.</p>
   </details>
 
   <footer>Designed and built by Claude. <a href="https://github.com/ryanwlow/glyphwork">Source</a></footer>
