@@ -1,6 +1,7 @@
 import { match } from './engine.js';
 import { chapters, levels } from './levels.js';
 import { Session, ruleText } from './session.js';
+import { track } from './analytics.js';
 
 const $ = (id) => document.getElementById(id);
 const els = {
@@ -18,7 +19,13 @@ try {
 let selectedRule = null;
 let hover = null;
 
-const session = new Session({ levels, chapters, store, onChange: render });
+const session = new Session({
+  levels,
+  chapters,
+  store,
+  onChange: render,
+  onSolve: (level, moves) => track(`solve/${level.id}/${moves <= level.par ? 'par' : 'over-par'}`),
+});
 
 function el(tag, attrs = {}, text) {
   const node = document.createElement(tag);
@@ -124,8 +131,10 @@ function log(cmd, out) {
   els.log.scrollTop = els.log.scrollHeight;
 }
 
-function run(cmd) {
+function run(cmd, via = 'console') {
+  track(`input/${via}`);
   const out = session.exec(cmd);
+  track(`start/${session.level.id}`);
   log(cmd, out);
   return out;
 }
@@ -138,8 +147,8 @@ els.form.addEventListener('submit', (e) => {
   els.input.value = '';
 });
 
-document.querySelectorAll('[data-cmd]').forEach((b) => b.addEventListener('click', () => run(b.dataset.cmd)));
-els.select.addEventListener('change', () => run(`level ${els.select.value}`));
+document.querySelectorAll('[data-cmd]').forEach((b) => b.addEventListener('click', () => run(b.dataset.cmd, 'click')));
+els.select.addEventListener('change', () => run(`level ${els.select.value}`, 'click'));
 
 els.grid.addEventListener('mouseover', (e) => {
   const td = e.target.closest('td');
@@ -157,12 +166,12 @@ els.grid.addEventListener('click', (e) => {
     log(null, 'Pick a rule first, then click the cell where its top-left corner should go.');
     return;
   }
-  run(`${selectedRule}@${td.dataset.r},${td.dataset.c}`);
+  run(`${selectedRule}@${td.dataset.r},${td.dataset.c}`, 'click');
 });
 
 window.glyphwork = {
   look: () => session.look(),
-  do: (cmd) => run(cmd),
+  do: (cmd) => run(cmd, 'api'),
   help: () => session.exec('help'),
   state: () => ({
     level: session.level.id,
@@ -182,3 +191,4 @@ if (start >= 0) session.load(start);
 else render();
 log(null, 'Welcome to Glyphwork. Type "help" for how to play, or just start: every command is text.');
 log('look', session.look());
+track(`start/${session.level.id}`);

@@ -56,7 +56,8 @@ function sideBySide(left, right, gap = 6) {
 }
 
 export class Session {
-  constructor({ levels, chapters, store = null, onChange = () => {} }) {
+  constructor({ levels, chapters, store = null, onChange = () => {}, onSolve = () => {} }) {
+    this.onSolve = onSolve; // (level, moves) after each solve, even mid-batch
     this.levels = levels.map(compileLevel);
     this.chapters = chapters;
     this.store = store;
@@ -190,6 +191,7 @@ export class Session {
         this.write('progress', this.progress);
       }
       out += `\n${this.solvedLine()}`;
+      this.onSolve(lv, this.history.length);
     }
     return out;
   }
