@@ -36,6 +36,10 @@ out = play('--new');
 expect(out.startsWith('Level 1/') && !play('levels').includes('★  1'), '--new wipes progress', out);
 out = execFileSync('node', [new URL('../play.mjs', import.meta.url).pathname], { env, input: 'A@0,0; history' }).toString();
 expect(out.includes('A@0,0 ✓') && out.trim().endsWith('A@0,0'), 'commands from stdin', out);
+out = play('--share-stats');
+expect(out.includes('Sharing is off'), 'stats sharing is off by default', out);
+out = play('--share-stats', 'off');
+expect(out.includes('Nothing is sent'), 'stats sharing can be turned off', out);
 
 rmSync(dir, { recursive: true, force: true });
 console.log('cli test passed');
