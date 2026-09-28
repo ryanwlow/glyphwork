@@ -1,0 +1,23 @@
+Glyphwork, plain-text edition · https://ryanwlow.github.io/glyphwork/levels/reader.txt
+
+Level 6/13: The Reader  [Lines]
+Moves 0 · par 6
+
+The reader ◇ only moves forward. It can swap its two neighbours, but whatever it leaves behind stays behind.
+
+Grid              Goal
+   0 1 2 3 4         0 1 2 3 4
+ 0 ▲ ◇ ● ■ ◆       0 ● ■ ◆ ▲ ◇
+
+Rules
+  A  x◇y → y◇x
+  B  ◇x → x◇
+
+To answer, write your moves in order as a solution code:
+  reader:A@r,c+B@r,c+...
+Each move must fit where you place it and change the grid. Par is the
+proven shortest solution.
+
+Check a code: https://ryanwlow.github.io/glyphwork/?replay=<code>, or node play.mjs "replay <code>"
+Next level: https://ryanwlow.github.io/glyphwork/levels/alchemy.txt
+All levels: https://ryanwlow.github.io/glyphwork/levels/index.txt

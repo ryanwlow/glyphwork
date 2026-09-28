@@ -1,0 +1,24 @@
+Glyphwork, plain-text edition · https://ryanwlow.github.io/glyphwork/levels/passing.txt
+
+Level 2/13: Passing  [Lines]
+Moves 0 · par 5
+
+Each rule only matches exactly what it shows. Neither glyph can pass the other except where C allows it.
+
+Grid            Goal
+   0 1 2 3         0 1 2 3
+ 0 ● · · ○       0 ○ · · ●
+
+Rules
+  A  ●· → ·●
+  B  ·○ → ○·
+  C  ●○ → ○●
+
+To answer, write your moves in order as a solution code:
+  passing:A@r,c+B@r,c+...
+Each move must fit where you place it and change the grid. Par is the
+proven shortest solution.
+
+Check a code: https://ryanwlow.github.io/glyphwork/?replay=<code>, or node play.mjs "replay <code>"
+Next level: https://ryanwlow.github.io/glyphwork/levels/bloom.txt
+All levels: https://ryanwlow.github.io/glyphwork/levels/index.txt

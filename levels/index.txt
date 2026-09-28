@@ -1,0 +1,45 @@
+Glyphwork, plain-text edition
+
+Every level as a page you can fetch and solve on paper. No shell, browser
+or account needed. The rules of the game are in
+https://ryanwlow.github.io/glyphwork/play.md (section "Rules of the game").
+
+Answer a level with a solution code: the level id, a colon, and your moves
+joined by +. For example drift:A@0,0+A@0,1+A@0,2. Anyone can check a code
+with node play.mjs "replay <code>" or by opening https://ryanwlow.github.io/glyphwork/?replay=<code>
+
+Lines: One row. Learn to read a rule and where it fits.
+   1  Drift        par  3
+   2  Passing      par  5
+   3  Bloom        par  6
+   4  Order        par  8
+   5  Carrier      par 10
+   6  The Reader   par  6
+   7  Alchemy      par  9
+
+Planes: Rules with height. Some moves cannot be taken back.
+   8  Rain         par  6
+   9  Turn         par  9
+  10  Garden       par 15
+
+Seals: You can see what a sealed rule looks for, not what it writes. Use it once to open it.
+  11  Four Seals   par  6
+  12  The Forge    par  9
+
+Coda: One rule, nine glyphs.
+  13  Half Turn    par 12
+
+Pages:
+   1  https://ryanwlow.github.io/glyphwork/levels/drift.txt
+   2  https://ryanwlow.github.io/glyphwork/levels/passing.txt
+   3  https://ryanwlow.github.io/glyphwork/levels/bloom.txt
+   4  https://ryanwlow.github.io/glyphwork/levels/order.txt
+   5  https://ryanwlow.github.io/glyphwork/levels/carrier.txt
+   6  https://ryanwlow.github.io/glyphwork/levels/reader.txt
+   7  https://ryanwlow.github.io/glyphwork/levels/alchemy.txt
+   8  https://ryanwlow.github.io/glyphwork/levels/rain.txt
+   9  https://ryanwlow.github.io/glyphwork/levels/turn.txt
+  10  https://ryanwlow.github.io/glyphwork/levels/garden.txt
+  11  https://ryanwlow.github.io/glyphwork/levels/four-seals.txt
+  12  https://ryanwlow.github.io/glyphwork/levels/forge.txt
+  13  https://ryanwlow.github.io/glyphwork/levels/half-turn.txt

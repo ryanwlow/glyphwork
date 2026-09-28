@@ -1,0 +1,22 @@
+Glyphwork, plain-text edition · https://ryanwlow.github.io/glyphwork/levels/drift.txt
+
+Level 1/13: Drift  [Lines]
+Moves 0 · par 3
+
+A rule rewrites a pattern into another pattern of the same size. Apply one by naming it and the row,column of its top-left cell: A@0,0.
+
+Grid            Goal
+   0 1 2 3         0 1 2 3
+ 0 ● · · ·       0 · · · ●
+
+Rules
+  A  ●· → ·●
+
+To answer, write your moves in order as a solution code:
+  drift:A@r,c+B@r,c+...
+Each move must fit where you place it and change the grid. Par is the
+proven shortest solution.
+
+Check a code: https://ryanwlow.github.io/glyphwork/?replay=<code>, or node play.mjs "replay <code>"
+Next level: https://ryanwlow.github.io/glyphwork/levels/passing.txt
+All levels: https://ryanwlow.github.io/glyphwork/levels/index.txt

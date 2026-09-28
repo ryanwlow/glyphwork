@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node tools/verify.mjs && node tools/smoke.mjs && node tools/cli.mjs"
+    "test": "node tools/pages.mjs --check && node tools/verify.mjs && node tools/smoke.mjs && node tools/cli.mjs"
   },
   "bin": {
     "glyphwork": "play.mjs"
