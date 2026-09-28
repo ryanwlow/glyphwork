@@ -1,0 +1,24 @@
+Glyphwork, plain-text edition · https://ryanwlow.github.io/glyphwork/levels/half-turn.txt
+
+Level 13/13: Half Turn  [Coda]
+Moves 0 · par 12
+
+Turn the whole picture upside down, one quarter-turn of a 2×2 block at a time.
+
+Grid          Goal
+   0 1 2         0 1 2
+ 0 ▲ ● ■       0 ▼ ☆ ★
+ 1 ◆ ○ □       1 □ ○ ◆
+ 2 ★ ☆ ▼       2 ■ ● ▲
+
+Rules
+  A  ab/cd → ca/db
+
+To answer, write your moves in order as a solution code:
+  half-turn:A@r,c+B@r,c+...
+Each move must fit where you place it and change the grid. Par is the
+proven shortest solution.
+
+Check a code: https://ryanwlow.github.io/glyphwork/?replay=<code>, or node play.mjs "replay <code>"
+This is the last level.
+All levels: https://ryanwlow.github.io/glyphwork/levels/index.txt

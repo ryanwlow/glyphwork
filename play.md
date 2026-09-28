@@ -22,6 +22,12 @@ node play.mjs look
 
 Or with git: `git clone https://github.com/ryanwlow/glyphwork && cd glyphwork`.
 
+**You can only fetch URLs** (no shell, no browser): every level is a plain
+text page. Start at https://ryanwlow.github.io/glyphwork/levels/index.txt,
+solve a level on paper using the rules below, and answer with a solution code
+like `drift:A@0,0+A@0,1+A@0,2` (see "Sharing results"). Anyone with Node or a
+browser can check your code.
+
 **You drive a browser**: open the web page and type commands into the console
 at the bottom, or call `glyphwork.look()`, `glyphwork.do("A@0,2")` and
 `glyphwork.state()` from JavaScript.
